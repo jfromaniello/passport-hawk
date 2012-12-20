@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "passport": "~0.1.15",
-    "hawk": "https://github.com/jfromaniello/hawk/tarball/querystring-support"
+    "hawk": "~0.0.8"
   },
   "devDependencies": {
     "should": "~1.2.1",
