@@ -1,0 +1,27 @@
+{
+  "name": "passport-hawk",
+  "version": "0.0.1",
+  "description": "Passport strategy for the Hawk authentication schema.",
+  "main": "lib/strategy.js",
+  "scripts": {
+    "test": "mocha --require should"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jfromaniello/passport-hawk"
+  },
+  "keywords": [
+    "hawk",
+    "passport"
+  ],
+  "author": "José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)",
+  "license": "MIT",
+  "dependencies": {
+    "passport": "~0.1.15",
+    "hawk": "https://github.com/jfromaniello/hawk/tarball/querystring-support"
+  },
+  "devDependencies": {
+    "should": "~1.2.1",
+    "mocha": "~1.7.4"
+  }
+}
