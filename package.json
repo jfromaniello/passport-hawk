@@ -1,6 +1,6 @@
 {
   "name": "passport-hawk",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "Passport strategy for the Hawk authentication schema.",
   "main": "lib/strategy.js",
   "scripts": {
@@ -18,7 +18,8 @@
   "license": "MIT",
   "dependencies": {
     "passport": "~0.1.15",
-    "hawk": "~0.4.0"
+    "hawk": "~0.4.0",
+    "xtend": "~1.0.3"
   },
   "devDependencies": {
     "should": "~1.2.1",
