@@ -4,7 +4,7 @@
   "description": "Passport strategy for the Hawk authentication schema.",
   "main": "lib/strategy.js",
   "scripts": {
-    "test": "mocha --require should"
+    "test": "mocha --require should -R spec"
   },
   "repository": {
     "type": "git",

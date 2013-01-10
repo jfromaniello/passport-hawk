@@ -30,6 +30,19 @@ then you can set ```my-hawk-strategy``` as a middlware in any route. For instanc
   	passport.authenticate('my-hawk-strategy', { session: false }));
 ~~~
 
+
+### Bewit support
+
+passport-hawk can be used to validate [bewit](https://github.com/hueniverse/hawk#bewit-usage-example):
+
+~~~javascript
+var HawkStrategy = require('passport-hawk');
+
+passport.use('my-hawk-strategy', new HawkStrategy({ bewit: true }, function (id, done) {
+  //..same as previous section
+});
+~~~
+
 ## License
 
 MIT
