@@ -68,7 +68,7 @@ describe('passport-hawk', function() {
     };
 
     strategy.fail = function(challenge) {
-      challenge.should.eql('invalid_token');
+      challenge.should.eql('Unknown credentials');
       testDone();
     };
     strategy.authenticate(req);
