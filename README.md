@@ -16,7 +16,7 @@ passport.use('my-hawk-strategy', new HawkStrategy(function (id, done) {
     if(err) return done(err);
     return {
       key: 		 user.secret,
-      algorithm: 'hmac-sha-256',
+      algorithm: 'sha256', // sha1 or sha256
       user:		 user
 	};
   });
