@@ -28,10 +28,6 @@ describe('passport-hawk', function() {
       user.should.eql('tito');
       testDone();
     };
-    strategy.error = function() {
-      console.log('alskjhslkhskjdhf');
-      testDone(arguments);
-    };
     strategy.authenticate(req);
   });
 
@@ -45,8 +41,8 @@ describe('passport-hawk', function() {
       method: 'GET',
       url: '/resource/4?filter=a'
     };
-    strategy.fail = function(challenge) {
-      challenge.should.eql('Bad mac');
+    strategy.error = function(challenge) {
+      challenge.message.should.eql('Bad mac');
       testDone();
     };
     strategy.authenticate(req);
@@ -68,10 +64,27 @@ describe('passport-hawk', function() {
       url: '/resource/4?filter=a'
     };
 
-    strategy.fail = function(challenge) {
-      challenge.should.eql('Unknown credentials');
+    strategy.error = function(challenge) {
+      challenge.message.should.eql('Unknown credentials');
       testDone();
     };
     strategy.authenticate(req);
   });
+
+  it('should fail with a stale request', function(testDone) {
+    var fixedHeader = 'Hawk id="dasd123", ts="1366220539", nonce="xVO62D", mac="9x+7TGN6VLRH8zX5PpwewpIzvf+mTt8m7PDQQW2NU/U="';
+    var req = {
+      headers: {
+        authorization: fixedHeader,
+        host: 'example.com:8080'
+      },
+      method: 'GET',
+      url: '/resource/4?filter=a'
+    };    
+    strategy.error = function(challenge) {
+      challenge.message.should.eql('Stale timestamp');      
+      testDone();
+    };
+    strategy.authenticate(req);
+  });  
 });
