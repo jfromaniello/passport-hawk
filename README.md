@@ -1,5 +1,7 @@
 [Passport.js](http://passportjs.org/) stategy for the [Hawk authentication scheme](https://github.com/hueniverse/hawk).
 
+[![Build Status](https://travis-ci.org/jfromaniello/passport-hawk.png)](https://travis-ci.org/jfromaniello/passport-hawk)
+
 This module allows you to use Hawk as an authentication strategy with passport.
 
 ## Installation
