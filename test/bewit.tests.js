@@ -31,7 +31,7 @@ describe('passport-hawk with bewit', function() {
       testDone();
     };
 
-    strategy.fail = strategy.error = function() {
+    strategy.error = function() {
       testDone(new Error(arguments));
     };
     strategy.authenticate(req);
@@ -46,8 +46,8 @@ describe('passport-hawk with bewit', function() {
       method: 'GET',
       url: '/resource/4?filter=a&bewit=' + bewit  
     };
-    strategy.fail = function(challenge) {
-      challenge.should.eql('Bad mac');
+    strategy.error = function(challenge) {      
+      challenge.message.should.eql('Bad mac');
       testDone();
     };
     strategy.authenticate(req);
@@ -68,8 +68,8 @@ describe('passport-hawk with bewit', function() {
       url: '/resource/4?filter=a&bewit=' + bewit  
     };
 
-    strategy.fail = function(challenge) {
-      challenge.should.eql('Unknown credentials');
+    strategy.error = function(challenge) {
+      challenge.message.should.eql('Unknown credentials');
       testDone();
     };
     strategy.authenticate(req);
