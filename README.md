@@ -16,11 +16,11 @@ var HawkStrategy = require('passport-hawk');
 passport.use('my-hawk-strategy', new HawkStrategy(function (id, done) {
   Users.findById(id, function (err, user){
     if(err) return done(err);
-    return {
+    done(null, {
       key: 		 user.secret,
       algorithm: 'sha256', // sha1 or sha256
       user:		 user
-	};
+    });
   });
 }));
 ~~~
