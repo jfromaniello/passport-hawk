@@ -17,8 +17,8 @@
   "author": "José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)",
   "license": "MIT",
   "dependencies": {
+    "hawk": "0.13.1",
     "passport": "0.1.x",
-    "hawk": "0.11.x",
     "xtend": "2.0.x"
   },
   "devDependencies": {
