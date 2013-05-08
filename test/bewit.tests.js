@@ -74,4 +74,21 @@ describe('passport-hawk with bewit', function() {
     };
     strategy.authenticate(req);
   });
+
+  it('should call fail when url doesnt have a bewit', function(testDone) {
+  
+    var req = {
+      headers: {
+        host: 'example.com:8080'
+      },
+      method: 'GET',
+      url: '/resource/4?filter=a'
+    };
+
+    strategy.fail = function(failure) {
+      failure.should.eql('Missing authentication tokens');
+      testDone();
+    };
+    strategy.authenticate(req);
+  });
 });
