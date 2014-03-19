@@ -41,8 +41,8 @@ describe('passport-hawk', function() {
       method: 'GET',
       url: '/resource/4?filter=a'
     };
-    strategy.error = function(challenge) {
-      challenge.message.should.eql('Bad mac');
+    strategy.fail = function(challenge) {
+      challenge.should.eql('Hawk error="Bad mac"');
       testDone();
     };
     strategy.authenticate(req);
@@ -64,8 +64,8 @@ describe('passport-hawk', function() {
       url: '/resource/4?filter=a'
     };
 
-    strategy.error = function(challenge) {
-      challenge.message.should.eql('Unknown credentials');
+    strategy.fail = function(challenge) {
+      challenge.should.eql('Hawk error="Unknown credentials"');
       testDone();
     };
     strategy.authenticate(req);
@@ -81,8 +81,9 @@ describe('passport-hawk', function() {
       method: 'GET',
       url: '/resource/4?filter=a'
     };    
-    strategy.error = function(challenge) {
-      challenge.message.should.eql('Stale timestamp');      
+    strategy.fail = function(challenge) {
+      challenge.should.match(/^Hawk/);
+      challenge.should.match(/error="Stale timestamp"/);
       testDone();
     };
     strategy.authenticate(req);
