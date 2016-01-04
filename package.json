@@ -17,12 +17,12 @@
   "author": "José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)",
   "license": "MIT",
   "dependencies": {
-    "hawk": "^3.1.0",
+    "hawk": "^4.0.1",
     "passport": "^0.3.0",
     "xtend": "^4.0.1"
   },
   "devDependencies": {
     "mocha": "^2.3.3",
-    "should": "^7.1.1"
+    "should": "^8.0.2"
   }
 }
