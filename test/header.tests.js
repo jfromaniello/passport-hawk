@@ -1,5 +1,6 @@
 var HawkStrategy = require('../lib/strategy'),
-  Hawk = require('hawk');
+  Hawk = require('hawk'),
+  should = require('should');
 
 var credentials = {
   key: 'abcd',
@@ -9,13 +10,13 @@ var credentials = {
 };
 
 var strategy = new HawkStrategy(function(id, done) {
-  if(id === credentials.id) return done(null, credentials);
+  if (id === credentials.id) return done(null, credentials);
   return done(null, null);
 });
 
 describe('passport-hawk', function() {
   it('can authenticate a request with a correct header', function(testDone) {
-    var header = Hawk.client.header('http://example.com:8080/resource/4?filter=a', 'GET', { credentials: credentials });  
+    var header = Hawk.client.header('http://example.com:8080/resource/4?filter=a', 'GET', { credentials: credentials });
     var req = {
       headers: {
         authorization: header.field,
@@ -23,7 +24,7 @@ describe('passport-hawk', function() {
       },
       method: 'GET',
       url: '/resource/4?filter=a'
-    };    
+    };
     strategy.success = function(user) {
       user.should.eql('tito');
       testDone();
@@ -32,7 +33,7 @@ describe('passport-hawk', function() {
   });
 
   it('should properly fail with correct challenge code when using different url', function(testDone) {
-    var header = Hawk.client.header('http://example.com:8080/resource/4?filter=a', 'GET', { credentials: credentials });    
+    var header = Hawk.client.header('http://example.com:8080/resource/4?filter=a', 'GET', { credentials: credentials });
     var req = {
       headers: {
         authorization: header.field,
@@ -80,11 +81,29 @@ describe('passport-hawk', function() {
       },
       method: 'GET',
       url: '/resource/4?filter=a'
-    };    
+    };
     strategy.error = function(challenge) {
-      challenge.message.should.eql('Stale timestamp');      
+      challenge.message.should.eql('Stale timestamp');
       testDone();
     };
     strategy.authenticate(req);
-  });  
+  });
+
+  it('can authenticate a request with options', function(testDone) {
+    var header = Hawk.client.header('https://example.com/resource/4?filter=a', 'GET', { credentials: credentials });
+    var req = {
+      headers: {
+        authorization: header.field,
+        host: 'example.com:3000'
+      },
+      method: 'GET',
+      url: '/resource/4?filter=a'
+    };
+    var opts = { port: 443 };
+    strategy.success = function(user) {
+      user.should.eql('tito');
+      testDone();
+    };
+    strategy.authenticate(req, opts);
+  });
 });

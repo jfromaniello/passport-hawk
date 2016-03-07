@@ -4,7 +4,7 @@
   "description": "Passport strategy for the Hawk authentication schema.",
   "main": "lib/strategy.js",
   "scripts": {
-    "test": "mocha --require should -R spec"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -17,12 +17,12 @@
   "author": "José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)",
   "license": "MIT",
   "dependencies": {
-    "hawk": "~2.3.1",
-    "passport": "~0.2.1",
-    "xtend": "2.0.x"
+    "hawk": "^4.0.1",
+    "passport": "^0.3.0",
+    "xtend": "^4.0.1"
   },
   "devDependencies": {
-    "should": "1.2.x",
-    "mocha": "1.9.x"
+    "mocha": "^2.3.3",
+    "should": "^8.0.2"
   }
 }
