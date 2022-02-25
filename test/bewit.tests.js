@@ -1,6 +1,7 @@
 var HawkStrategy = require('../lib/strategy'),
   Hawk = require('hawk'),
-  should = require('should');
+  should = require('should'),
+  buildRequest = require('./reqMock').buildRequest;
 
 var credentials = {
   key: 'abcd',
@@ -22,13 +23,13 @@ describe('passport-hawk with bewit', function() {
       credentials: credentials,
       ttlSec: 60 * 5
     });
-    var req = {
+    var req = buildRequest({
       headers: {
         host: 'example.com:8080'
       },
       method: 'GET',
       url: '/resource/4?filter=a&bewit=' + bewit
-    };
+    });
 
     strategy.success = function(user) {
       user.should.eql('tito');
@@ -41,18 +42,47 @@ describe('passport-hawk with bewit', function() {
     strategy.authenticate(req);
   });
 
+  it('does not modifies req.url when is available', function (testDone) {
+    var bewit = Hawk.uri.getBewit(
+      'http://example.com:8080/resource/4?filter=a',
+      {
+        credentials: credentials,
+        ttlSec: 60 * 5,
+      }
+    );
+    var req = buildRequest({
+      headers: {
+        host: 'example.com:8080',
+      },
+      method: 'GET',
+      url: '/abc',
+      originalUrl: '/resource/4?filter=a&bewit=' + bewit,
+    });
+
+    strategy.success = function (user) {
+      req.url.should.eql('/abc');
+
+      testDone();
+    };
+
+    strategy.error = function () {
+      testDone(new Error(arguments));
+    };
+    strategy.authenticate(req);
+  });
+
   it('should properly fail with correct challenge code when using different url', function(testDone) {
     var bewit = Hawk.uri.getBewit('http://example.com:8080/resource/4?filter=a' + bewit, {
       credentials: credentials,
       ttlSec: 60 * 5
     });
-    var req = {
+    var req = buildRequest({
       headers: {
         host: 'example.com:8080'
       },
       method: 'GET',
       url: '/resource/4?filter=a&bewit=' + bewit
-    };
+    });
     strategy.error = function(challenge) {
       challenge.message.should.eql('Bad mac');
       testDone();
@@ -70,13 +100,13 @@ describe('passport-hawk with bewit', function() {
       ttlSec: 60 * 5
     });
 
-    var req = {
+    var req = buildRequest({
       headers: {
         host: 'example.com:8080'
       },
       method: 'GET',
       url: '/resource/4?filter=a&bewit=' + bewit
-    };
+    });
 
     strategy.error = function(challenge) {
       challenge.message.should.eql('Unknown credentials');
@@ -87,13 +117,13 @@ describe('passport-hawk with bewit', function() {
 
   it('should call fail when url doesnt have a bewit', function(testDone) {
 
-    var req = {
+    var req = buildRequest({
       headers: {
         host: 'example.com:8080'
       },
       method: 'GET',
       url: '/resource/4?filter=a'
-    };
+    });
 
     strategy.fail = function(failure) {
       failure.should.eql('Missing authentication tokens');
